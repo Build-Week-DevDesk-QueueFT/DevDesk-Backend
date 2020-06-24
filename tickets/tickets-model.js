@@ -1,7 +1,9 @@
 const db = require('../data/dbConfig');
 
 const get = async () => {
-  return await db('tickets');
+  return await db('tickets')
+    .join('users', 'users.id', '=', 'tickets.created_by')
+    .select('tickets.*', 'users.username as created_by_username');
 }
 
 const getBy = async (filter) => {
