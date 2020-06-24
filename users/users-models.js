@@ -14,11 +14,17 @@ const add = async (user) => {
 }
 
 const getUsersCreatedTickets = async (userId) => {
-  return await db('tickets').where({ created_by: userId });
+  return await db('tickets')
+    .where({ created_by: userId })
+    .join('users', 'users.id', '=', 'tickets.created_by')
+    .select('tickets.*', 'users.username as created_by_username');
 }
 
 const getAssignedTickets = async (userId) => {
-  return await db('tickets').where({ assigned_to: userId });
+  return await db('tickets')
+    .where({ assigned_to: userId })
+    .join('users', 'users.id', '=', 'tickets.created_by')
+    .select('tickets.*', 'users.username as created_by_username');
 }
 
 module.exports = {
