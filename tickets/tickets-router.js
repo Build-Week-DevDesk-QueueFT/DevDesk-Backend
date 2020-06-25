@@ -27,6 +27,7 @@ router.post('/', validateTicketBody, async (req, res) => {
 
 router.put('/:id', validateTicketExists, validateTicketBody, async (req, res) => {
   try {
+    delete req.body.created_by_username;
     const ticket = req.body;
     const updatedTicket = await Tickets.update(req.ticket.id, ticket);
     res.status(200).json(updatedTicket);
